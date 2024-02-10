@@ -1,21 +1,28 @@
 local M = {}
 
-local opts = {
-    test = "test",
+-- default settings
+local settings = {
+    -- absolute path to the directory compiled schemes should be stored in
+    ---@type string
+    colors_dir = vim.fn.stdpath("config") .. "/colors",
+
+    -- integrations dir (lua module path)
+    ---@type string
+    integrations_module = "themecomp.integrations",
 }
 
-M.configure = function(overrides)
+-- configure settings
+local configure = function(overrides)
     for k, v in pairs(overrides or {}) do
-        opts[k] = v
+        settings[k] = v
     end
-
-    return opts
+    return settings
 end
 
 
+-- set up the plugin
 M.setup = function(overrides)
-    M.configure(overrides)
-    print(opts.test)
+    configure(overrides)
 end
 
 return M
