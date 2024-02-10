@@ -1,15 +1,21 @@
 local M = {}
 
-M.config = {
+local opts = {
     test = "test",
 }
 
-M.setup = function(overrides)
+M.configure = function(overrides)
     for k, v in pairs(overrides or {}) do
-        M.config[k] = v
+        opts[k] = v
     end
+
+    return opts
 end
 
-print(M.config.test)
+
+M.setup = function(overrides)
+    M.configure(overrides)
+    print(opts.test)
+end
 
 return M
