@@ -11,3 +11,5 @@ M.setup = function(overrides)
 end
 
 print(M.config.test)
+
+return M
