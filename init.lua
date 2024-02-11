@@ -1,1 +1,0 @@
-lua/themecomp/init.lua
