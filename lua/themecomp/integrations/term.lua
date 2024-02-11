@@ -1,7 +1,7 @@
 local M = {}
 
 function M.set(col16, col30)
-    M.termcolors = {
+    return {
         terminal_color_0  = col16.color01,
         terminal_color_1  = col16.color08,
         terminal_color_2  = col16.color0B,

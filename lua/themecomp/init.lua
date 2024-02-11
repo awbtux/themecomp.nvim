@@ -13,9 +13,9 @@ M.settings = {
     ---@type string
     colors_dir = vim.fn.stdpath("config") .. "/colors",
 
-    -- whether or not to use transparency
+    -- whether or not to use the theme's terminal colors
     ---@type boolean
-    transparency = false,
+    terminal_colors = true,
 
     -- which theme to use
     ---@type string
@@ -119,10 +119,10 @@ M.compile = function()
             result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. "/transparent.lua").set(scheme.base16, scheme.base30)) .. " end"
         end
 
-        if vim.loop.fs_stat(M.settings.integration_path .. "/term.lua") then
+        if vim.loop.fs_stat(M.settings.integration_path .. "/term.lua") and M.settings.terminal_colors then
             local termscheme = dofile(M.settings.integration_path .. "/term.lua").set(scheme.base16, scheme.base30)
 
-            for colname, colval in pairs(termscheme.termcolors) do
+            for colname, colval in pairs(termscheme) do
                 result = result .. string.format(' vim.g.%s = "%s" ', colname, colval)
             end
         end
