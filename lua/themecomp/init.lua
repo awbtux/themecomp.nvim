@@ -6,6 +6,8 @@ M.colorconv = require "themecomp.colorconv"
 ------------------------------------------------------------------------------------------------------------
 
 -- default settings
+-- custom paths must be specified both as lua modules and absolute paths;
+-- this is annoying but required for IO stuff
 M.settings = {
     -- directory to compile color schemes to (absolute path)
     ---@type string
@@ -19,25 +21,13 @@ M.settings = {
     ---@type string
     theme = "onedark",
 
-    -- where to find color palettes (lua module path)
-    -- overridden 
+    -- where to find color palettes (absolute path)
     ---@type string
-    palette_path = "themecomp.palettes",
+    palette_path = debug.getinfo(1, "S").source:match("@?(.*/)") .. "palettes",
 
-    -- where to find the user's color palettes (lua module path)
-    -- takes precedence over palette_path
+    -- where to find integrations (absolute path)
     ---@type string
-    user_palette_path = nil,
-
-    -- where to find integrations (lua module path)
-    -- overridden 
-    ---@type string
-    integration_path = "themecomp.integrations",
-
-    -- where to find the user's integrations (lua module path)
-    -- takes precedence over integration_path
-    ---@type string
-    user_integration_path = nil,
+    integration_path = debug.getinfo(1, "S").source:match("@?(.*/)") .. "integrations",
 
     -- list of integrations
     ---@type string[]
@@ -73,48 +63,6 @@ M.merge_table = function(...)
     return vim.tbl_deep_extend("force", ...)
 end
 
--- get a theme table
-M.get_theme_table = function(name)
-    -- use the default palette path
-    local theme_path = M.settings.palette_path .. "." .. name
-
-    -- use a custom 
-    if M.settings.user_palette_path then
-        local theme_path = M.settings.user_palette_path .. "." .. name
-    end
-
-    -- try to read the theme file in a protected call
-    local present, theme = pcall(require, theme_path)
-
-    -- return it if possible, complain if not
-    if present then
-        return theme
-    else
-        error "Failed to read theme table!"
-    end
-end
-
--- get an integration table
-M.get_integration_table = function(name)
-    -- use the default integration path
-    local integration_path = M.settings.integration_path .. "." .. name
-
-    -- use a custom 
-    if M.settings.user_integration_path then
-        local integration_path = M.settings.user_integration_path .. "." .. name
-    end
-
-    -- try to read the integration file in a protected call
-    local present, integration = pcall(require, integration_path)
-
-    -- return it if possible, complain if not
-    if present then
-        return integration
-    else
-        error "Failed to read integration table!"
-    end
-end
-
 ------------------------------------------------------------------------------------------------------------
 
 -- compile themes
@@ -123,9 +71,14 @@ M.compile = function()
         vim.fn.mkdir(M.settings.colors_dir, "p")
     end
 
-    --for _, filename in ipairs(M.settings.integrations) do
-    --    M.cache_stirng(filename, M.load_integrationTB(filename))
-    --end
+    if not vim.loop.fs_stat(M.settings.palette_path) then
+        error "Palette path does not exist!"
+    end
+
+    for _, filename in ipairs(vim.fn.readdir(M.settings.palette_path)) do
+        local scheme = dofile(M.settings.palette_path .. "/" .. filename)
+        print(scheme.type)
+    end
 end
 
 -- set up the plugin
