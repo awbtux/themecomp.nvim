@@ -116,6 +116,8 @@ M.compile = function()
             result = result .. M.table_to_string(integration)
         end
 
+        result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. "/transparent.lua").set(scheme.base16, scheme.base30)) .. " end"
+
         local file = io.open(filename, "w")
         if file then
             file:write(result)
