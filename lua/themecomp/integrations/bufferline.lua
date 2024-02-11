@@ -23,14 +23,18 @@ function M.set(col16, col30)
         BufferLineModifiedVisible           = { fg = col30.red, bg = col30.black2, },
         BufferLineModifiedSelected          = { fg = col30.green, bg = col30.black, },
 
+        BufferLineOffsetSeparator           = { fg = col30.darker_black, bg = col30.darker_black, },
         BufferLineSeparator                 = { fg = col30.black2, bg = col30.black2, },
         BufferLineSeparatorVisible          = { fg = col30.black2, bg = col30.black2, },
         BufferLineSeparatorSelected         = { fg = col30.black2, bg = col30.black2, },
 
-        BufferLineTab                       = { fg = col30.light_grey, bg = col30.one_bg3, },
+        BufferLineTab                       = { fg = col30.light_grey, bg = col30.one_bg2, },
         BufferLineTabSelected               = { fg = col30.black2, bg = col30.nord_blue, },
-        BufferLineTabClose                  = { fg = col30.red, bg = col30.black, },
+        BufferLineTabClose                  = { fg = col30.red, bg = col30.black2, },
+        BufferLineTabSeparator              = { fg = col30.black2, bg = col30.black2, },
+        BufferLineTabSeparatorSelected      = { fg = col30.black2, bg = col30.black2, },
 
+        BufferLineDevIcon                   = { bg = "none", },
         BufferLineDevIconDefaultSelected    = { bg = "none", },
         BufferLineDevIconDefaultInactive    = { bg = "none", },
 
