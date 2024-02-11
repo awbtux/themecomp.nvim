@@ -64,7 +64,7 @@ function M.set(col16, col30)
         Visual              = { bg = col16.color02, },
         VisualNOS           = { fg = col16.color08, },
 
-        DevIconDefault      = { fg = col30.red },
+        DevIconDefault      = { fg = col30.red, bg = "none" },
         Directory           = { fg = col16.color0D, ctermfg = 4 },
 
         FoldColumn          = { fg = col16.color0C, bg = col16.color01, },
