@@ -14,6 +14,7 @@ M.settings = {
     colors_dir = vim.fn.stdpath("config") .. "/colors",
 
     -- write a gitignore in the colors directory
+    ---@type boolean
     gitignore = true,
 
     -- whether or not to use the theme's terminal colors
