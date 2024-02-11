@@ -3,6 +3,8 @@ local M = {}
 -- functions for color-related conversions/operations
 M.colorconv = require "themecomp.colorconv"
 
+------------------------------------------------------------------------------------------------------------
+
 -- default settings
 M.settings = {
     -- directory to compile color schemes to (absolute path)
@@ -26,22 +28,49 @@ M.settings = {
     -- takes precedence over palette_path
     ---@type string
     user_palette_path = nil,
+
+    -- where to find integrations (lua module path)
+    -- overridden 
+    ---@type string
+    integration_path = "themecomp.integrations",
+
+    -- where to find the user's integrations (lua module path)
+    -- takes precedence over integration_path
+    ---@type string
+    user_integration_path = nil,
+
+    -- list of integrations
+    ---@type string[]
+    integrations = {
+        "alpha",
+        "bufferline",
+        "cmp",
+        "defaults",
+        "devicons",
+        "git",
+        "illuminate",
+        "indentline",
+        "lsp",
+        "lspsaga",
+        "mason",
+        "navic",
+        "notify",
+        "nvimtree",
+        "semantic_tokens",
+        "syntax",
+        "telescope",
+        "term",
+        "todo",
+        "treesitter",
+        "whichkey",
+    }
 }
 
--- configure settings
-local configure = function(overrides)
-    for k, v in pairs(overrides or {}) do
-        M.settings[k] = v
-    end
-    return M.settings
-end
+------------------------------------------------------------------------------------------------------------
 
--- compile themes
-M.compile = function()
-    if not vim.loop.fs_stat(M.settings.colors_dir) then
-        vim.fn.mkdir(M.settings.colors_dir, "p")
-    end
-    print("compiled")
+-- merge tables
+M.merge_table = function(...)
+    return vim.tbl_deep_extend("force", ...)
 end
 
 -- get a theme table
@@ -65,9 +94,45 @@ M.get_theme_table = function(name)
     end
 end
 
+-- get an integration table
+M.get_integration_table = function(name)
+    -- use the default integration path
+    local integration_path = M.settings.integration_path .. "." .. name
+
+    -- use a custom 
+    if M.settings.user_integration_path then
+        local integration_path = M.settings.user_integration_path .. "." .. name
+    end
+
+    -- try to read the integration file in a protected call
+    local present, integration = pcall(require, integration_path)
+
+    -- return it if possible, complain if not
+    if present then
+        return integration
+    else
+        error "Failed to read integration table!"
+    end
+end
+
+------------------------------------------------------------------------------------------------------------
+
+-- compile themes
+M.compile = function()
+    if not vim.loop.fs_stat(M.settings.colors_dir) then
+        vim.fn.mkdir(M.settings.colors_dir, "p")
+    end
+
+    --for _, filename in ipairs(M.settings.integrations) do
+    --    M.cache_stirng(filename, M.load_integrationTB(filename))
+    --end
+end
+
 -- set up the plugin
 M.setup = function(overrides)
-    configure(overrides)
+    for k, v in pairs(overrides or {}) do
+        M.settings[k] = v
+    end
 
     if not vim.loop.fs_stat(M.settings.colors_dir .. "/.themes_compiled") then
         M.compile()
