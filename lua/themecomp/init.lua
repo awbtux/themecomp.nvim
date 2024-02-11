@@ -13,6 +13,9 @@ M.settings = {
     ---@type string
     colors_dir = vim.fn.stdpath("config") .. "/colors",
 
+    -- write a gitignore in the colors directory
+    gitignore = true,
+
     -- whether or not to use the theme's terminal colors
     ---@type boolean
     terminal_colors = true,
@@ -169,6 +172,17 @@ M.compile = function()
         lockfile:close()
     else
         error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. "/.themes_compiled"))
+    end
+
+    -- write a gitignore for stuff generated here
+    if M.settings.gitignore then
+        local gitignore = io.open(M.settings.colors_dir .. "/.gitignore", "w")
+        if gitignore then
+            gitignore:write(string.format("*.lua\n.themes_compiled\n"))
+            gitignore:close()
+        else
+            error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. "/.gitignore"))
+        end
     end
 end
 
