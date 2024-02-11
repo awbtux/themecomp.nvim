@@ -65,6 +65,26 @@ end
 
 ------------------------------------------------------------------------------------------------------------
 
+-- convert a theme table to string
+M.table_to_string = function(table)
+    local result = ""
+
+    for hlgroupname, hlgroup_vals in pairs(table) do
+        local hlname = "'" .. hlgroupname .. "',"
+        local opts = ""
+
+        for optName, optVal in pairs(hlgroup_vals) do
+            local valueInStr = ((type(optVal)) == "boolean" or type(optVal) == "number") and tostring(optVal)
+                or '"' .. optVal .. '"'
+            opts = opts .. optName .. "=" .. valueInStr .. ","
+        end
+
+        result = result .. "vim.api.nvim_set_hl(0," .. hlname .. "{" .. opts .. "})"
+    end
+
+    return result
+end
+
 -- compile themes
 M.compile = function()
     if not vim.loop.fs_stat(M.settings.colors_dir) then
@@ -77,9 +97,40 @@ M.compile = function()
 
     for _, palettefile in ipairs(vim.fn.readdir(M.settings.palette_path)) do
         local scheme = dofile(M.settings.palette_path .. "/" .. palettefile)
-        for _, integrationfile in ipairs(M.settings.integrations) do
-            print(string.format("%s: %s", palettefile, integrationfile))
+
+        local result = string.format('vim.g.colors_name = "%s" vim.opt.background = "%s" ', scheme.scheme_name, scheme.type)
+
+        local filename = M.settings.colors_dir .. "/" .. scheme.scheme_name .. ".lua"
+
+        for _, integrationname in ipairs(M.settings.integrations) do
+            local integration = dofile(M.settings.integration_path .. "/" .. integrationname .. ".lua").set(scheme.base16, scheme.base30)
+
+            if scheme.polishhl and scheme.polishhl[integrationname] then
+                integration = M.merge_table(integration, scheme.polishhl[integrationname])
+            end
+
+            if M.settings.hl_overrides and M.settings.hl_overrides[integrationname] then
+                integration = M.merge_table(integration, M.settings.hl_overrides[integrationname])
+            end
+
+            result = result .. M.table_to_string(integration)
         end
+
+        local file = io.open(filename, "w")
+        if file then
+            file:write(result)
+            file:close()
+        else
+            error(string.format("%s: Unable to open file for writing", filename))
+        end
+    end
+
+    local lockfile = io.open(M.settings.colors_dir .. "/.themes_compiled", "w")
+    if lockfile then
+        lockfile:write("")
+        lockfile:close()
+    else
+        error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. "/.themes_compiled"))
     end
 end
 
@@ -88,6 +139,8 @@ M.setup = function(overrides)
     for k, v in pairs(overrides or {}) do
         M.settings[k] = v
     end
+
+    vim.api.nvim_create_user_command("ThemeCompile", M.compile, {})
 
     if not vim.loop.fs_stat(M.settings.colors_dir .. "/.themes_compiled") then
         M.compile()
