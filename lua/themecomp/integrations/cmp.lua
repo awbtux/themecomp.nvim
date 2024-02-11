@@ -79,7 +79,7 @@ function M.set(col16, col30)
         },
     }
 
-    local generate_color = require("user.colors").change_hex_lightness
+    local generate_color = require("themecomp.colorconv").change_hex_lightness
 
     -- override item_kind highlights for atom style
     if cmp_ui.style == "atom" then

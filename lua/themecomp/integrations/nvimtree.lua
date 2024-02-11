@@ -9,7 +9,7 @@ function M.set(col16, col30)
         NvimTreeFolderArrowOpen     = { fg = col30.folder_bg },
         NvimTreeFolderArrowClosed   = { fg = col30.grey_fg },
         NvimTreeGitDirty            = { fg = col30.red },
-        NvimTreeIndentMarker        = { fg = (vim.o.background == "dark" and require("user.colors").change_hex_lightness(col30.line, -2) or col30.one_bg2) },
+        NvimTreeIndentMarker        = { fg = (vim.o.background == "dark" and require("themecomp.colorconv").change_hex_lightness(col30.line, -2) or col30.one_bg2) },
         NvimTreeNormal              = { bg = col30.darker_black },
         NvimTreeNormalNC            = { bg = col30.darker_black },
         NvimTreeOpenedFolderName    = { fg = col30.folder_bg },

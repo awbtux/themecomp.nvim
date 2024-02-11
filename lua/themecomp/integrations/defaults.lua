@@ -80,7 +80,7 @@ function M.set(col16, col30)
         healthSuccess       = { bg = col30.green, fg = col30.black, },
 
         LazyH1              = { bg = col30.green, fg = col30.black, },
-        LazyButton          = { bg = col30.one_bg, fg = require("user.colors").change_hex_lightness(col30.light_grey, vim.o.bg == "dark" and 10 or -20), },
+        LazyButton          = { bg = col30.one_bg, fg = require("themecomp.colorconv").change_hex_lightness(col30.light_grey, vim.o.bg == "dark" and 10 or -20), },
         LazyH2              = { fg = col30.red, bold = true, underline = true, },
         LazyReasonPlugin    = { fg = col30.red },
         LazyValue           = { fg = col30.teal },
