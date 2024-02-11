@@ -49,7 +49,6 @@ M.settings = {
         "semantic_tokens",
         "syntax",
         "telescope",
-        "term",
         "todo",
         "treesitter",
         "whichkey",
@@ -116,7 +115,17 @@ M.compile = function()
             result = result .. M.table_to_string(integration)
         end
 
-        result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. "/transparent.lua").set(scheme.base16, scheme.base30)) .. " end"
+        if vim.loop.fs_stat(M.settings.integration_path .. "/transparent.lua") then
+            result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. "/transparent.lua").set(scheme.base16, scheme.base30)) .. " end"
+        end
+
+        if vim.loop.fs_stat(M.settings.integration_path .. "/term.lua") then
+            local termscheme = dofile(M.settings.integration_path .. "/term.lua").set(scheme.base16, scheme.base30)
+
+            for colname, colval in pairs(termscheme.termcolors) do
+                result = result .. string.format(' vim.g.%s = "%s" ', colname, colval)
+            end
+        end
 
         local file = io.open(filename, "w")
         if file then
