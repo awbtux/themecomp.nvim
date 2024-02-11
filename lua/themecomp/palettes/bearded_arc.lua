@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "bearded_arc"
+
 M.type = "dark"
 
 M.base30 = {

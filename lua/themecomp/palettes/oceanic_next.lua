@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "oceanic_next"
+
 M.type = "dark"
 
 M.base30 = {

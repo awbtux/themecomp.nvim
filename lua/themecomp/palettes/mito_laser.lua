@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "mito_laser"
+
 M.type = "dark"
 
 M.base30 = {

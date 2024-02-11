@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "flexoki_light"
+
 M.type = "light"
 
 M.base30 = {

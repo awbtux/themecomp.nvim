@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "pastelbeans"
+
 M.type = "dark"
 
 M.base30 = {

@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "vscode_dark"
+
 M.type = "dark"
 
 M.base30 = {

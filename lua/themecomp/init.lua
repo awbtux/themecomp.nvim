@@ -75,9 +75,11 @@ M.compile = function()
         error "Palette path does not exist!"
     end
 
-    for _, filename in ipairs(vim.fn.readdir(M.settings.palette_path)) do
-        local scheme = dofile(M.settings.palette_path .. "/" .. filename)
-        print(scheme.type)
+    for _, palettefile in ipairs(vim.fn.readdir(M.settings.palette_path)) do
+        local scheme = dofile(M.settings.palette_path .. "/" .. palettefile)
+        for _, integrationfile in ipairs(M.settings.integrations) do
+            print(string.format("%s: %s", palettefile, integrationfile))
+        end
     end
 end
 

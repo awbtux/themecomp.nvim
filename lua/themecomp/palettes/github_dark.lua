@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "github_dark"
+
 M.type = "dark"
 
 M.base30 = {

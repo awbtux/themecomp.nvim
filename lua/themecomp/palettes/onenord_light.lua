@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "onenord_light"
+
 M.type = "light"
 
 M.base30 = {

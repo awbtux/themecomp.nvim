@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "dark_horizon"
+
 M.type = "dark"
 
 M.base30 = {

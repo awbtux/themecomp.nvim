@@ -1,5 +1,7 @@
 local M = {}
 
+M.scheme_name = "penumbra_dark"
+
 M.type = "dark"
 
 M.base30 = {
