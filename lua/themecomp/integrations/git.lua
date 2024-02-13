@@ -3,15 +3,15 @@ local M = {}
 function M.set(col16, col30)
     return {
         -- diff
-        diffOldFile         = { fg = col30.baby_pink, },
-        diffNewFile         = { fg = col30.blue, },
-        DiffAdd             = { fg = col30.blue, },
-        DiffAdded           = { fg = col30.green, },
-        DiffChange          = { fg = col30.light_grey, },
-        DiffChangeDelete    = { fg = col30.red, },
-        DiffModified        = { fg = col30.orange, },
-        DiffDelete          = { fg = col30.red, },
-        DiffRemoved         = { fg = col30.red, },
+        diffOldFile         = { fg = col30.baby_pink, ctermfg = 5, },
+        diffNewFile         = { fg = col30.blue, ctermfg = 4, },
+        DiffAdd             = { fg = col30.blue, ctermfg = 4, },
+        DiffAdded           = { fg = col30.green, ctermfg = 2, },
+        DiffChange          = { fg = col30.light_grey, ctermfg = 8, },
+        DiffChangeDelete    = { fg = col30.red, ctermfg = 1, },
+        DiffModified        = { fg = col30.orange, ctermfg = 3, },
+        DiffDelete          = { fg = col30.red, ctermfg = 1, },
+        DiffRemoved         = { fg = col30.red, ctermfg = 1, },
         DiffText            = { fg = col30.white, bg = col30.black2, },
 
         -- git commits

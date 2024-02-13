@@ -1,10 +1,12 @@
 local M = {}
 
+local lighten = require("themecomp.colorconv").change_hex_lightness
+
 function M.set(col16, col30)
     local defaults = {
         Normal              = { fg = col16.color05, bg = col16.color00, },
         NormalFloat         = { bg = col30.darker_black },
-        StatusLine          = { fg = col30.white, bg = col30.statusline_bg },
+        StatusLine          = { fg = col30.white, bg = col30.statusline_bg, },
         StatusLineNC        = { fg = col30.grey_fg2, bg = col30.statusline_bg },
 
         Cursor              = { fg = col16.color00, bg = col16.color05, },
@@ -22,9 +24,11 @@ function M.set(col16, col30)
         Italic              = { italic = true, },
         Conceal             = { bg = "NONE", },
 
-        TabLine             = { fg = col16.color05, bg = col30.one_bg, },
-        TabLineFill         = { fg = col16.color05, bg = col30.darker_black, },
-        TabLineSel          = { fg = col16.color05, bg = col30.black, bold = true, },
+        TabLine             = { fg = lighten(col30.light_grey, 3), bg = col30.one_bg, ctermfg = 7, ctermbg = 8, },
+        TabLineFill         = { fg = lighten(col30.light_grey, 3), bg = col30.one_bg, ctermfg = 7, ctermbg = 8, },
+        TabLineSel          = { bold = true, fg = col16.color04, bg = col30.black, ctermfg = 15, ctermbg = 0, },
+        TabLineDelim        = { fg = col30.one_bg, bg = col30.one_bg, ctermfg = 8, ctermbg = 8, },
+        TabLineDelimSel     = { fg = col30.black, bg = col30.one_bg, ctermfg = 0, ctermbg = 8, },
 
         Pmenu               = { bg = col30.one_bg },
         PmenuSbar           = { bg = col30.one_bg },

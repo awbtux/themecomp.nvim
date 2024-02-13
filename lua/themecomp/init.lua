@@ -3,6 +3,19 @@ local M = {}
 -- functions for color-related conversions/operations
 M.colorconv = require "themecomp.colorconv"
 
+-- path separator
+local pathsep = "/"
+
+-- path separator (for windows)
+if vim.fn.has("win32") then
+    pathsep = "\\"
+end
+
+-- path separator (if unix env detected)
+if vim.fn.has("unix") then
+    pathsep = "/"
+end
+
 ------------------------------------------------------------------------------------------------------------
 
 -- default settings
@@ -11,7 +24,7 @@ M.colorconv = require "themecomp.colorconv"
 M.settings = {
     -- directory to compile color schemes to (absolute path)
     ---@type string
-    colors_dir = vim.fn.stdpath("config") .. "/colors",
+    colors_dir = vim.fn.stdpath("config") .. pathsep .. "colors",
 
     -- write a gitignore in the colors directory
     ---@type boolean
@@ -39,6 +52,7 @@ M.settings = {
         "alpha",
         "bufferline",
         "cmp",
+        "cokeline",
         "defaults",
         "devicons",
         "git",
@@ -52,6 +66,7 @@ M.settings = {
         "nvimtree",
         "semantic_tokens",
         "syntax",
+        "tabby",
         "telescope",
         "todo",
         "treesitter",
@@ -105,28 +120,34 @@ M.compile = function()
         return
     end
 
+    -- a
+    local themecount = 0
+
     -- for each palette
     for _, palettefile in ipairs(vim.fn.readdir(M.settings.palette_path)) do
+        -- increment the theme count
+        themecount = themecount + 1
+
         -- load the palette into 'scheme'
-        local scheme = dofile(M.settings.palette_path .. "/" .. palettefile)
+        local scheme = dofile(M.settings.palette_path .. pathsep .. palettefile)
 
         -- initialize 'result' (the string to be written) with the palette name and type
-        local result = string.format('vim.g.colors_name = "%s" vim.opt.background = "%s" ', scheme.scheme_name, scheme.type)
+        local result = string.format('vim.g.colors_name = "%s" vim.opt.background = "%s" vim.cmd("hi clear") ', scheme.scheme_name, scheme.type)
 
         -- get the filename of the color scheme
-        local filename = M.settings.colors_dir .. "/" .. scheme.scheme_name .. ".lua"
+        local filename = M.settings.colors_dir .. pathsep .. scheme.scheme_name .. ".lua"
 
         -- for each integration
         for _, integrationname in ipairs(M.settings.integrations) do
 
             -- ensure the integration exists
-            if not vim.loop.fs_stat(M.settings.integration_path .. "/" .. integrationname .. ".lua") then
-                error(string.format("%s: No such file or directory!", M.settings.integration_path .. "/" .. integrationname .. ".lua"))
+            if not vim.loop.fs_stat(M.settings.integration_path .. pathsep .. integrationname .. ".lua") then
+                error(string.format("%s: No such file or directory!", M.settings.integration_path .. pathsep .. integrationname .. ".lua"))
                 return
             end
 
             -- load the default highlights
-            local integration = dofile(M.settings.integration_path .. "/" .. integrationname .. ".lua").set(scheme.base16, scheme.base30)
+            local integration = dofile(M.settings.integration_path .. pathsep .. integrationname .. ".lua").set(scheme.base16, scheme.base30)
 
             -- apply per-theme highlight overrides
             if scheme.polishhl and scheme.polishhl[integrationname] then
@@ -143,8 +164,8 @@ M.compile = function()
         end
 
         -- if applicable, set the terminal color variables
-        if vim.loop.fs_stat(M.settings.integration_path .. "/misc/term.lua") and M.settings.terminal_colors then
-            local termscheme = dofile(M.settings.integration_path .. "/misc/term.lua").set(scheme.base16, scheme.base30)
+        if vim.loop.fs_stat(M.settings.integration_path .. pathsep .. "misc" .. pathsep .. "term.lua") and M.settings.terminal_colors then
+            local termscheme = dofile(M.settings.integration_path .. pathsep "misc" .. pathsep .. "term.lua").set(scheme.base16, scheme.base30)
 
             for colname, colval in pairs(termscheme) do
                 result = result .. string.format(' vim.g.%s = "%s" ', colname, colval)
@@ -152,8 +173,8 @@ M.compile = function()
         end
 
         -- if applicable, use transparency
-        if vim.loop.fs_stat(M.settings.integration_path .. "/misc/transparent.lua") then
-            result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. "/misc/transparent.lua").set(scheme.base16, scheme.base30)) .. ' vim.g.terminal_color_0 = "" vim.g.terminal_color_8 = "" ' .. "end"
+        if vim.loop.fs_stat(M.settings.integration_path .. pathsep .. "misc" .. pathsep .. "transparent.lua") then
+            result = result .. "if vim.g.transparency then " .. M.table_to_string(dofile(M.settings.integration_path .. pathsep .. "misc" .. pathsep .. "transparent.lua").set(scheme.base16, scheme.base30)) .. ' vim.g.terminal_color_0 = "" vim.g.terminal_color_8 = "" end'
         end
 
         -- write the theme file
@@ -166,23 +187,26 @@ M.compile = function()
         end
     end
 
+    -- print success msg
+    print(string.format("Compiled %d themes!", themecount))
+
     -- prevent this function from being ran again automatically at plugin startup
-    local lockfile = io.open(M.settings.colors_dir .. "/.themes_compiled", "w")
+    local lockfile = io.open(M.settings.colors_dir .. pathsep .. ".themes_compiled", "w")
     if lockfile then
         lockfile:write("")
         lockfile:close()
     else
-        error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. "/.themes_compiled"))
+        error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".themes_compiled"))
     end
 
     -- write a gitignore for stuff generated here
     if M.settings.gitignore then
-        local gitignore = io.open(M.settings.colors_dir .. "/.gitignore", "w")
+        local gitignore = io.open(M.settings.colors_dir .. pathsep .. ".gitignore", "w")
         if gitignore then
             gitignore:write(string.format("*.lua\n.themes_compiled\n"))
             gitignore:close()
         else
-            error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. "/.gitignore"))
+            error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".gitignore"))
         end
     end
 end
@@ -198,7 +222,7 @@ M.setup = function(overrides)
     vim.api.nvim_create_user_command("ThemeCompile", M.compile, {})
 
     -- run M.compile() if not done already
-    if not vim.loop.fs_stat(M.settings.colors_dir .. "/.themes_compiled") then
+    if not vim.loop.fs_stat(M.settings.colors_dir .. pathsep .. ".themes_compiled") then
         M.compile()
     end
 

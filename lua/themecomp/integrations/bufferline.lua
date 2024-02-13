@@ -34,9 +34,9 @@ function M.set(col16, col30)
         BufferLineTabSeparator              = { fg = col30.black2, bg = col30.black2, },
         BufferLineTabSeparatorSelected      = { fg = col30.black2, bg = col30.black2, },
 
-        BufferLineDevIcon                   = { bg = "none", },
-        BufferLineDevIconDefaultSelected    = { bg = "none", },
-        BufferLineDevIconDefaultInactive    = { bg = "none", },
+        BufferLineDevIconDefault            = { fg = col30.grey_fg, bg = col30.black2, },
+        BufferLineDevIconDefaultSelected    = { fg = col30.white, bg = col30.black, },
+        BufferLineDevIconDefaultInactive    = { link = "BufferLineDevIconDefault", },
 
         BufferLineDuplicate                 = { fg = "NONE", bg = col30.black2, },
         BufferLineDuplicateSelected         = { fg = col30.red, bg = col30.black, },

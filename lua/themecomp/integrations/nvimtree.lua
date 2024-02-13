@@ -14,7 +14,7 @@ function M.set(col16, col30)
         NvimTreeNormalNC            = { bg = col30.darker_black },
         NvimTreeOpenedFolderName    = { fg = col30.folder_bg },
         NvimTreeGitIgnored          = { fg = col30.light_grey },
-        NvimTreeWinSeparator        = { fg = col30.darker_black, bg = col30.darker_black, },
+        NvimTreeWinSeparator        = { fg = col30.black, ctermfg = 8, bg = col30.black, ctermbg = 0, },
         NvimTreeWindowPicker        = { fg = col30.red, bg = col30.black2, },
         NvimTreeCursorLine          = { bg = col30.black2, },
         NvimTreeGitNew              = { fg = col30.yellow, },
