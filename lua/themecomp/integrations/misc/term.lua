@@ -1,6 +1,9 @@
 local M = {}
 
-function M.set(col16, col30)
+function M.set(scheme, opts)
+    local col16 = scheme.base16
+    local col30 = scheme.base30
+
     return {
         terminal_color_0  = col16.color01,
         terminal_color_1  = col16.color08,

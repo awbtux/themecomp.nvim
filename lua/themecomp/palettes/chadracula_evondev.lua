@@ -6,7 +6,7 @@ M.type = "dark"
 
 M.base30 = {
     white = "#F8F8F2",
-    darker_black = "#19192c",
+    darker_black = "#1a1a2f",
     black = "#141423",
     black2 = "#1c1c31",
     one_bg = "#23233d",
@@ -31,7 +31,7 @@ M.base30 = {
     teal = "#92A2D4",
     orange = "#FFB86C",
     cyan = "#2CCCFF",
-    statusline_bg = "#19192c",
+    statusline_bg = "#1a1a2f",
     lightbg = "#2b2b4c",
     pmenu_bg = "#9A86FD",
     folder_bg = "#9A86FD",

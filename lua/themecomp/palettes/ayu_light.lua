@@ -31,7 +31,7 @@ M.base30 = {
     teal = "#74c5aa",
     orange = "#FA8D3E",
     cyan = "#95E6CB",
-    statusline_bg = "#f0f0f0",
+    statusline_bg = "#ededed",
     lightbg = "#e6e6e6",
     pmenu_bg = "#95E6CB",
     folder_bg = "#5C6166",
@@ -39,7 +39,7 @@ M.base30 = {
 
 M.base16 = {
     color00 = "#fafafa",
-    color01 = "#f0f0f0",
+    color01 = "#ededed",
     color02 = "#eeeeee",
     color03 = "#dfdfdf",
     color04 = "#d2d2d2",

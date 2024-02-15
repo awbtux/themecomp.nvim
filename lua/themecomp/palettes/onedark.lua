@@ -31,7 +31,7 @@ M.base30 = {
     teal = "#519ABA",
     orange = "#fca2aa",
     cyan = "#a3b8ef",
-    statusline_bg = "#22262e",
+    statusline_bg = "#242830",
     lightbg = "#2d3139",
     pmenu_bg = "#61afef",
     folder_bg = "#61afef",
@@ -53,7 +53,7 @@ M.base16 = {
     color0C = "#56b6c2",
     color0D = "#61afef",
     color0E = "#c678dd",
-    color0F = "#be5046",
+    color0F = "#be5c63",
 }
 
 M.polishhl = {}

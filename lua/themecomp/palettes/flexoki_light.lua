@@ -6,7 +6,7 @@ M.type = "light"
 
 M.base30 = {
     white = "#2a2929",
-    darker_black = "#f7f4e9",
+    darker_black = "#f5f2e5",
     black = "#FFFCF0", --  nvim bg
     black2 = "#f2efe4",
     one_bg = "#ebe8dd", -- real bg of onedark
@@ -31,7 +31,7 @@ M.base30 = {
     teal = "#008080",
     orange = "#DA702C",
     cyan = "#3AA99F",
-    statusline_bg = "#f7f4e9",
+    statusline_bg = "#f5f2e5",
     lightbg = "#ebe8dd",
     pmenu_bg = "#3AA99F",
     folder_bg = "#4385BE",

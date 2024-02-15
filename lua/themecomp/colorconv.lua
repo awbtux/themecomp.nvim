@@ -144,7 +144,7 @@ end
 -- @param amount the amount to change the hue.
 --                           negative values decrease the hue, positive values increase it.
 -- @return the hex color value
-M.change_hex_hue = function(hex, percent)
+M.shift_hex = function(hex, percent)
     local h, s, l = M.hex2hsl(hex)
     h = h + (percent / 100)
     if h > 360 then
@@ -161,7 +161,7 @@ end
 -- @param percent the percentage to desaturate or saturate the color.
 --                              negative values desaturate the color, positive values saturate it
 -- @return the hex color value
-M.change_hex_saturation = function(hex, percent)
+M.saturate_hex = function(hex, percent)
     local h, s, l = M.hex2hsl(hex)
     s = s + (percent / 100)
     if s > 1 then
@@ -178,7 +178,7 @@ end
 -- @param percent the percentage to lighten or darken the color.
 --                              negative values darken the color, positive values lighten it
 -- @return the hex color value
-M.change_hex_lightness = function(hex, percent)
+M.lighten_hex = function(hex, percent)
     local h, s, l = M.hex2hsl(hex)
     l = l + (percent / 100)
     if l > 1 then

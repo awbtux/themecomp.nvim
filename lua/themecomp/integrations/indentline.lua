@@ -1,11 +1,17 @@
 local M = {}
 
-function M.set(col16, col30)
+function M.set(scheme, opts)
+    local col16 = scheme.base16
+    local col30 = scheme.base30
+
     return {
-        IblChar             = { fg = col30.line },
-        IblScope            = { fg = col30.grey_fg2 },
-        IblScopeChar        = { fg = col30.grey }, -- first indenline in scope only
-        IblScopeFirstLine   = { bg = col30.one_bg2 },
+        --IblChar             = { fg = col16.color01, ctermfg = 0 },
+        IblChar             = { fg = col30.line, ctermfg = 8 },
+        IblIndent           = { link = "IblChar" },
+        IblScope            = { link = "IblChar" },
+        IblScopeChar        = { link = "IblChar" },
+        IblScopeFirstLine   = { link = "IblChar" },
+        IblWhitespace       = { link = "Empty" },
     }
 end
 return M

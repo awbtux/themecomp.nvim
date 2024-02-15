@@ -1,6 +1,9 @@
 local M = {}
 
-function M.set(col16, col30)
+function M.set(scheme, opts)
+    local col16 = scheme.base16
+    local col30 = scheme.base30
+
     local hl = {
         NvimTreeWinSeparator = {
             fg = col30.one_bg2,
