@@ -237,6 +237,15 @@ M.compile = function()
         error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".themes_compiled"))
     end
 
+    -- i need this
+    local themenamefile = io.open(M.settings.colors_dir .. pathsep .. ".___theme_name", "w")
+    if themenamefile then
+        themenamefile:write("#::vim-colorscheme::#")
+        themenamefile:close()
+    else
+        error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".themes_compiled"))
+    end
+
     -- msg
     vimprint("Writing %s", M.settings.colors_dir .. pathsep .. ".gitignore")
 
@@ -244,7 +253,7 @@ M.compile = function()
     if M.settings.gitignore then
         local gitignore = io.open(M.settings.colors_dir .. pathsep .. ".gitignore", "w")
         if gitignore then
-            gitignore:write(string.format("*.lua\n.themes_compiled\n"))
+            gitignore:write(string.format("*.lua\n.themes_compiled\n.___theme_name\n"))
             gitignore:close()
         else
             error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".gitignore"))
@@ -278,9 +287,15 @@ M.setup = function(overrides)
         M.compile()
     end
 
+    -- read the theme name from a file
+    local themename = io.open(M.settings.colors_dir .. pathsep .. ".theme_name", "r")
+
     -- load the user-defined theme if one is provided
     if M.settings.theme then
         vim.cmd(string.format("silent! colorscheme %s", M.settings.theme))
+    elseif themename then
+        vim.cmd(string.format("silent! colorscheme %s", themename:read("*line")))
+        themename:close()
     end
 end
 
