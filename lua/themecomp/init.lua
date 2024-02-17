@@ -253,7 +253,7 @@ M.compile = function()
     if M.settings.gitignore then
         local gitignore = io.open(M.settings.colors_dir .. pathsep .. ".gitignore", "w")
         if gitignore then
-            gitignore:write(string.format("*.lua\n.themes_compiled\n.___theme_name\n"))
+            gitignore:write(string.format("*.lua\n.themes_compiled\n.___theme_name\n.theme_name\n"))
             gitignore:close()
         else
             error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".gitignore"))
