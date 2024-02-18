@@ -47,7 +47,7 @@ function M.set(scheme, opts)
         ["@text.strike"]            = { fg = col16.color0F, ctermfg = 1, strikethrough = true },
         ["@text.literal"]           = { fg = col16.color09, ctermfg = 4 },
         ["@text.uri"]               = { fg = col16.color09, ctermfg = 4, underline = true },
-        ["@type.builtin"]           = { fg = col16.color0A, ctermfg = 3 },
+        ["@type.builtin"]           = { fg = col16.color0A, ctermfg = 11 },
         ["@variable"]               = { fg = col16.color05, ctermfg = 7 },
         ["@variable.builtin"]       = { fg = col16.color09, ctermfg = 12 },
         ["@definition"]             = { sp = col16.color04, underline = true },
