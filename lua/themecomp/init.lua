@@ -118,7 +118,7 @@ M.table_to_string = function(table)
             opts = opts .. optName .. "=" .. valueInStr .. ","
         end
 
-        result = result .. "vim.api.nvim_set_hl(0," .. hlname .. "{" .. opts .. "})"
+        result = result .. "H(0," .. hlname .. "{" .. opts .. "}) "
     end
 
     return result
@@ -165,7 +165,7 @@ M.compile = function()
         local scheme = dofile(M.settings.palette_path .. pathsep .. palettefile)
 
         -- initialize 'result' (the string to be written) with the palette name and type
-        local result = string.format('vim.cmd("hi clear") vim.g.colors_name = "%s" vim.colors_name = vim.g.colors_name vim.opt.background = "%s" ', scheme.scheme_name, scheme.type)
+        local result = string.format('vim.cmd("hi clear") vim.g.colors_name = "%s" vim.opt.background = "%s" local H = vim.api.nvim_set_hl ', scheme.scheme_name, scheme.type)
 
         -- get the filename of the color scheme
         local filename = M.settings.colors_dir .. pathsep .. scheme.scheme_name .. ".lua"
@@ -237,15 +237,6 @@ M.compile = function()
         error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".themes_compiled"))
     end
 
-    -- i need this
-    local themenamefile = io.open(M.settings.colors_dir .. pathsep .. ".___theme_name", "w")
-    if themenamefile then
-        themenamefile:write("#::vim-colorscheme::#")
-        themenamefile:close()
-    else
-        error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".themes_compiled"))
-    end
-
     -- msg
     vimprint("Writing %s", M.settings.colors_dir .. pathsep .. ".gitignore")
 
@@ -253,7 +244,7 @@ M.compile = function()
     if M.settings.gitignore then
         local gitignore = io.open(M.settings.colors_dir .. pathsep .. ".gitignore", "w")
         if gitignore then
-            gitignore:write(string.format("*.lua\n.themes_compiled\n.___theme_name\n.theme_name\n"))
+            gitignore:write(string.format("*.lua\n.themes_compiled\n"))
             gitignore:close()
         else
             error(string.format("%s: Unable to open file for writing", M.settings.colors_dir .. pathsep .. ".gitignore"))
