@@ -8,9 +8,8 @@ function M.set(scheme, opts)
         CokeLineBackground                = { link = "TabLineFill" },
         CokeLineBufferSelected            = { link = "TabLineSel" },
         CokeLineBufferVisible             = { link = "TabLine" },
-
-        CokeLineCloseButton               = { fg = col30.light_grey, ctermfg = 8, bg = col30.black2, ctermbg = 8 },
-        CokeLineCloseButtonSelected       = { fg = col30.red, ctermfg = 1, bg = col30.black },
+        CokeLineCloseButton               = { link = "TabLineClose" },
+        CokeLineCloseButtonSelected       = { link = "TabLineCloseSel" },
     }
 end
 
