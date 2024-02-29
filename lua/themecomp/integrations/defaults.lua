@@ -74,8 +74,8 @@ function M.set(scheme, opts)
         ModeMsg                = { fg = col30.grey_fg2, ctermfg = 7 },
         MoreMsg                = { fg = col30.grey_fg2, ctermfg = 7 },
 
-        IncSearch              = { fg = col16.color01, bg = col16.color09, ctermfg = 8, ctermbg = 3 },
-        Search                 = { fg = col16.color01, bg = col16.color0A, ctermfg = 8, ctermbg = 3 },
+        IncSearch              = { fg = col16.color01, bg = col16.color09, ctermfg = 0, ctermbg = 3 },
+        Search                 = { fg = col16.color01, bg = col16.color0A, ctermfg = 0, ctermbg = 3 },
 
         Visual                 = { fg = col16.color05, bg = col16.color02, ctermfg = 7, ctermbg = 8 },
         VisualNOS              = { fg = col16.color08, ctermfg = 1 },

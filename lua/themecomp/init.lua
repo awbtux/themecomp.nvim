@@ -69,6 +69,7 @@ local M = {
         ---@type string[]
         integrations = {
             "alpha",
+            "barbar",
             "bufferline",
             "cmp",
             "cokeline",

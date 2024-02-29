@@ -6,6 +6,8 @@ function M.set(scheme, opts)
 
     return {
         -- diff
+        Added               = { fg = col30.green, ctermfg = 2 },
+        Changed             = { fg = col30.orange, ctermfg = 3 },
         diffOldFile         = { fg = col30.baby_pink, ctermfg = 5 },
         diffNewFile         = { fg = col30.blue, ctermfg = 4 },
         DiffAdd             = { fg = col30.blue, ctermfg = 4 },
@@ -16,6 +18,7 @@ function M.set(scheme, opts)
         DiffDelete          = { fg = col30.red, ctermfg = 1 },
         DiffRemoved         = { fg = col30.red, ctermfg = 1 },
         DiffText            = { fg = col30.white, bg = col30.black2 },
+        Removed             = { fg = col30.red, ctermfg = 1 },
 
         -- git commits
         gitcommitOverflow       = { fg = col16.color08, ctermfg = 1 },
