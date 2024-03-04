@@ -5,6 +5,9 @@ function M.set(scheme, opts)
     local col30 = scheme.base30
 
     return {
+        -- misc
+        BufferOffset           = { fg = col16.color05, bg = col30.darker_black },
+
         -- current
         BufferCurrent           = { link = "TabLineSel" },
         BufferCurrentADDED      = { link = "TabLineSel" },
