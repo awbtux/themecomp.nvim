@@ -76,6 +76,7 @@ local M = {
             "defaults",
             "devicons",
             "git",
+            "hardline",
             "illuminate",
             "indentline",
             "lsp",
