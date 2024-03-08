@@ -28,10 +28,6 @@ local M = {
         ---@type boolean
         terminal_colors = true,
 
-        -- which theme to use
-        ---@type string
-        theme = nil,
-
         -- how to style completion
         -- default | atom | atom_colored | flat_light | flat_dark
         ---@type string
@@ -278,17 +274,6 @@ M.setup = function(overrides)
     -- run M.compile() if not done already
     if not vim.loop.fs_stat(M.settings.colors_dir .. pathsep .. ".themes_compiled") then
         M.compile()
-    end
-
-    -- read the theme name from a file
-    local themename = io.open(M.settings.colors_dir .. pathsep .. ".theme_name", "r")
-
-    -- load the user-defined theme if one is provided
-    if M.settings.theme then
-        vim.cmd(string.format("silent! colorscheme %s", M.settings.theme))
-    elseif themename then
-        vim.cmd(string.format("silent! colorscheme %s", themename:read("*line")))
-        themename:close()
     end
 end
 
